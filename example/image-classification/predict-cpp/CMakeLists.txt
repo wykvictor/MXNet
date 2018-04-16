@@ -1,9 +1,11 @@
+
 # Check OpenCV
 if(NOT USE_OPENCV OR NOT OpenCV_FOUND)
   message(WARNING "\
-OpenCV should be enabled and found to build image classification example, skipping...")
-  return()
+OpenCV should be enabled and found to build image classification example, skipping...android arm64 build: modify not use opencv")
+  #return()
 endif()
+
 
 if(NOT MSVC)
   set(IMG_CLASSIFICATION_EXAMPLE_STATIC_LINK ON CACHE BOOL "\
@@ -13,11 +15,15 @@ else()
   set(IMG_CLASSIFICATION_EXAMPLE_STATIC_LINK OFF)
 endif()
 
-add_executable(image-classification-predict image-classification-predict.cc)
-include_directories(SYSTEM ${OpenCV_INCLUDE_DIRS})
+# works:/usr/aarch64-linux-android/bin/aarch64-linux-android-clang++ /work/mxnet/example/image-classification/predict-cpp/mxnet-android-test.cpp -fPIE -pie
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pie -fPIE")
+add_executable(image-classification-predict mxnet-android-test.cpp)
+
+include_directories(SYSTEM)
 
 if(IMG_CLASSIFICATION_EXAMPLE_STATIC_LINK)
-  target_link_libraries(image-classification-predict
+  message(STATUS "android arm64 build: static link mxnet")
+  target_link_libraries(image-classification-predict PUBLIC "-static"
                         ${BEGIN_WHOLE_ARCHIVE} mxnet_static ${END_WHOLE_ARCHIVE}
                         dmlc
                         ${mxnet_LINKER_LIBS}

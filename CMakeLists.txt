@@ -346,7 +346,8 @@ if(USE_OPENMP)
     endif()
   endif()
 elseif(UNIX)
-  list(APPEND mxnet_LINKER_LIBS pthread)
+  # list(APPEND mxnet_LINKER_LIBS pthread)
+  message(STATUS "android arm64 build: rm pthread from arm build: ${mxnet_LINKER_LIBS}")
 endif()
 
 # ---[ LAPack
@@ -356,9 +357,11 @@ if(USE_LAPACK AND NOT MSVC)
 else(USE_LAPACK)
   # Workaround for Windows until using new Jenkinsfile.
   if(BLAS STREQUAL "Open" OR BLAS STREQUAL "open" OR USE_BLAS STREQUAL "Open" OR USE_BLAS STREQUAL "open")
-    add_definitions(-DMXNET_USE_LAPACK=1)
+    message(STATUS "android arm64 build: should not use lapack")
+    # add_definitions(-DMXNET_USE_LAPACK=1)
   endif()
 endif()
+message(STATUS "android arm64 build: lapack from arm build: ${mxnet_LINKER_LIBS} ${MXNET_USE_LAPACK}")
 
 # ---[ jemalloc
 if(USE_JEMALLOC)
@@ -580,7 +583,6 @@ else()
   set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} /OPT:REF /OPT:ICF")
   set(CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL "${CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL} /OPT:REF /OPT:ICF")
   set(CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO "${CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO} /OPT:REF /OPT:ICF")
-  
 endif()
 
 set(MXNET_INSTALL_TARGETS mxnet)
@@ -653,7 +655,7 @@ if(MSVC AND USE_MXNET_LIB_NAMING)
   set_target_properties(mxnet PROPERTIES OUTPUT_NAME "libmxnet")
 endif()
 
-add_subdirectory(tests)
+# add_subdirectory(tests)
 
 include(GNUInstallDirs)
 install(TARGETS ${MXNET_INSTALL_TARGETS}

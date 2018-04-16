@@ -162,10 +162,10 @@ build_android_arm64() {
         -DUSE_OPENCV=OFF\
         -DUSE_OPENMP=OFF\
         -DUSE_SIGNAL_HANDLER=ON\
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo\
+        -DCMAKE_BUILD_TYPE=Release\
         -DUSE_MKL_IF_AVAILABLE=OFF\
         -G Ninja /work/mxnet
-    ninja
+    ninja -j 2
     export MXNET_LIBRARY_PATH=`pwd`/libmxnet.so
     cd /work/mxnet/python
     python setup.py bdist_wheel --universal

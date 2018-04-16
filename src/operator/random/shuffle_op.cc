@@ -23,7 +23,7 @@
  * \brief Operator to shuffle elements of an NDArray
  */
 #if (__GNUC__ > 4 && !defined(__clang__major__)) || (__clang_major__ > 4 && __linux__)
-  #define USE_GNU_PARALLEL_SHUFFLE
+  //#define USE_GNU_PARALLEL_SHUFFLE
 #endif
 
 #include <mxnet/operator_util.h>

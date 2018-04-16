@@ -1,3 +1,20 @@
+# MXNet Android Benchmark
+### 编译
+1. 机器先安装docker
+2. 编译arm64库及可执行文件image-classification-predict
+```
+./ci/build.py -p android_arm64
+```
+
+### 测试
+1. 找一台Android连接MAC，并打开debug调试模式
+2. ./TesMXNetAndroid.sh (该脚本在主目录)
+
+
+==============================================
+
+
+
 Apache MXNet (incubating) for Deep Learning
 =====
 
